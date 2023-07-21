@@ -1,0 +1,16 @@
+[Unit]
+Description=Send List Black White To Server
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/root/pi_hole/monitor-dns
+Environment=PYTHONPATH=/root/pi_hole/monitor-dns
+ExecStart=/root/pi_hole/monitor-dns/venv/bin/python3.9 /root/pi_hole/monitor-dns/send_get_raw_data.py
+StandardInput=tty-force
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
