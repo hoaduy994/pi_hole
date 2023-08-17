@@ -84,7 +84,28 @@ class RealRegexWhite:
 
             
     def rawblacklist(self):
-        pass
+        rl = f"{self.ssl}://{self.IP_address}/rawblacklist/{self.dns_center_id}"
+        x = requests.get(url)
+        data_dns=str(x.text).split("\n")
+        add_regexwhite=[]
+        for row in data_dns:
+            if (("<" not in row) and("        "not in row)):
+                add_regexwhite.append(row)
+        conn = sqlite3.connect('/etc/pihole/gravity.db')
+        cur = conn.cursor()
+        sqlite_insert_query=f"""
+                        DELETE FROM domainlist 
+                        WHERE type = "1"
+                        """
+        cur.execute(sqlite_insert_query)
+        conn.commit()
+        for row in add_regexwhite: 
+            sqlite_insert_query=f"""
+                            insert into domainlist (type,domain,comment)
+                            values ('1',"{row}",'Black') 
+                            """
+            cur.execute(sqlite_insert_query)
+            conn.commit() 
     
     def rawregexblack(self):
         url = f"{self.ssl}://{self.IP_address}/rawregexblack/{self.dns_center_id}"

@@ -51,12 +51,13 @@ class Send_monitor(object):
                     continue
                 disk=f"{partition_usage.percent}"
         # get IO statistics since boot
-        response = requests.get('http://ww6.screenredasia.com/')
+        response = requests.get('http://192.168.72.131/admin/api.php?status&auth=998ed4d621742d0c2d85ed84173db569afa194d4597686cae947324aa58ab4bb')
+        data = response.json()
         # print(response.text)
-        if ("Pi-hole: A black hole for Internet advertisements" in response.text):
-            status="Enable"
+        if "status" in data and data["status"] == "enabled":
+            status = "Enable"
         else:
-            status="Disable"
+            status = "Disable"
 
         json_data = {
         'dns_center_id': dns_center_id,
