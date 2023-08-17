@@ -84,7 +84,7 @@ class RealRegexWhite:
 
             
     def rawblacklist(self):
-        rl = f"{self.ssl}://{self.IP_address}/rawblacklist/{self.dns_center_id}"
+        url = f"{self.ssl}://{self.IP_address}/rawblacklist/{self.dns_center_id}"
         x = requests.get(url)
         data_dns=str(x.text).split("\n")
         add_regexwhite=[]
